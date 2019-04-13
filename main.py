@@ -16,13 +16,3 @@ pet_ids = train["PetID"]
 image_paths = [os.path.join(data_dir, "train_images", pet_id + "-1.jpg") for pet_id in pet_ids]
 images = [imageio.imread(path) if os.path.isfile(path) else None for path in tqdm(image_paths)]
 train = train.assign(image_1=images)
-
-
-
-#print(len(images))
-# print(list(train))
-
-
-# im = imageio.imread(os.path.join(data_dir, "train_images", pet_id + "-1.jpg"))
-
-#print(images)
