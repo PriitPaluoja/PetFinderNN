@@ -35,3 +35,4 @@ rf = RandomForestClassifier().fit(X_train, y_train)
 predictions = rf.predict(X_test)
 
 print(cohen_kappa_score(y_test, predictions, weights="quadratic"))
+print(accuracy_score(y_test, predictions))
