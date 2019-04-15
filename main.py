@@ -3,7 +3,7 @@ import os
 import imageio
 import pandas as pd
 from keras import Input, Model
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 import numpy as np
 import keras.utils
@@ -59,28 +59,21 @@ for to_norm in to_normalize:
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
+inputs = Input(shape=(len(list(X_train)),))
+x = Dense(100, activation='relu')(inputs)
+x = Dense(200, activation='relu')(x)
+x = Dense(500, activation='relu')(x)
+x = Dense(500, activation='relu')(x)
+x = Dense(700, activation='relu')(x)
+x = Dense(500)(x)
+predictions = Dense(5, activation='softmax')(x)
 
-def get_neural(X, y):
-    # def metric(y_true, y_pred):
-    #    return cohen_kappa_score(y_true, y_pred, weights="quadratic")
+model = Model(inputs=inputs, outputs=predictions)
+model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
 
-    inputs = Input(shape=(len(list(X)),))
-    x = Dense(500, activation='relu')(inputs)
-    x = Dense(500, activation='relu')(x)
-    x = Dense(500, activation='relu')(x)
-    x = Dense(500, activation='relu')(x)
-    x = Dense(500, activation='relu')(x)
-    x = Dense(500, activation='relu')(x)
-    predictions = Dense(5, activation='softmax')(x)
-
-    model = Model(inputs=inputs, outputs=predictions)
-    model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
-
-    model.fit(X, keras.utils.to_categorical(y), batch_size=1200, epochs=5, validation_split=0.04)
-    return model
+model.fit(X_train, keras.utils.to_categorical(y_train), batch_size=1200, epochs=5, validation_split=0.04)
 
 
-model = get_neural(X_train, y_train)
 test_predictions = model.predict(X_test)
 test_predictions = [np.argmax(pred) for pred in test_predictions]
 print(test_predictions)
