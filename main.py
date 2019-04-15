@@ -3,7 +3,8 @@ import os
 import imageio
 import pandas as pd
 from keras import Input, Model
-from keras.layers import Dense, Dropout
+from keras.callbacks import EarlyStopping
+from keras.layers import Dense, Dropout, BatchNormalization
 from keras.optimizers import Adam
 import numpy as np
 import keras.utils
@@ -60,10 +61,10 @@ for to_norm in to_normalize:
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
 inputs = Input(shape=(len(list(X_train)),))
-x = Dense(100, activation='relu')(inputs)
-x = Dense(200, activation='relu')(x)
-x = Dense(500, activation='relu')(x)
-x = Dense(500, activation='relu')(x)
+x = Dense(150, activation='relu')(inputs)
+x = Dense(250, activation='relu')(x)
+x = Dense(350, activation='relu')(x)
+x = Dense(450, activation='relu')(x)
 x = Dense(700, activation='relu')(x)
 x = Dense(500)(x)
 predictions = Dense(5, activation='softmax')(x)
@@ -71,8 +72,14 @@ predictions = Dense(5, activation='softmax')(x)
 model = Model(inputs=inputs, outputs=predictions)
 model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
 
-model.fit(X_train, keras.utils.to_categorical(y_train), batch_size=1200, epochs=15, validation_split=0.04)
-
+model.fit(X_train, keras.utils.to_categorical(y_train),
+          batch_size=1200,
+          epochs=15,
+          validation_split=0.04,
+          callbacks=[EarlyStopping(monitor='val_loss',
+                                   min_delta=0,
+                                   patience=5,
+                                   verbose=0, mode='auto')])
 
 test_predictions = model.predict(X_test)
 test_predictions = [np.argmax(pred) for pred in test_predictions]
