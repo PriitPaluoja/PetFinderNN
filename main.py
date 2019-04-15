@@ -23,7 +23,7 @@ pet_ids = train["PetID"]
 
 selected_columns = ["Type", "Age", "Breed1", "Breed2", "Gender", "Color1", "Color2", "Color3",
                     "MaturitySize", "FurLength", "Vaccinated", "Dewormed", "Sterilized", "Health",
-                    "Quantity", "Fee", "State", "VideoAmt", "PhotoAmt", "AdoptionSpeed"]
+                    "Quantity", "Fee", "State", "VideoAmt", "PhotoAmt"]
 
 label_column = "AdoptionSpeed"
 
