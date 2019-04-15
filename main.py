@@ -58,12 +58,11 @@ for to_norm in to_normalize:
     X[to_norm] = (train[to_norm] - train[to_norm].mean()) / train[to_norm].std()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-print(X_train)
 
 
 def get_neural(X, y):
     # def metric(y_true, y_pred):
-    # return cohen_kappa_score(y_true, y_pred, weights="quadratic")
+    #    return cohen_kappa_score(y_true, y_pred, weights="quadratic")
 
     inputs = Input(shape=(len(list(X)),))
     x = Dense(500, activation='relu')(inputs)
@@ -77,7 +76,7 @@ def get_neural(X, y):
     model = Model(inputs=inputs, outputs=predictions)
     model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
 
-    model.fit(X, keras.utils.to_categorical(y), batch_size=200, epochs=5, validation_split=0.04)
+    model.fit(X, keras.utils.to_categorical(y), batch_size=1200, epochs=5, validation_split=0.04)
     return model
 
 
