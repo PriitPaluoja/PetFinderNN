@@ -4,7 +4,7 @@ import imageio
 import pandas as pd
 from keras import Input, Model
 from keras.callbacks import EarlyStopping
-from keras.layers import Dense, Dropout, BatchNormalization
+from keras.layers import Dense
 from keras.optimizers import Adam
 import numpy as np
 import keras.utils
