@@ -27,7 +27,7 @@ selected_columns = ["Type", "Age", "Breed1", "Breed2", "Gender", "Color1", "Colo
 
 label_column = "AdoptionSpeed"
 
-y = train["AdoptionSpeed"]
+y = train[label_column]
 X = train[selected_columns]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
