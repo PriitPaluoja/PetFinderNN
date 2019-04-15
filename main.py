@@ -3,8 +3,10 @@ import os
 import imageio
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import ElasticNet, LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, cohen_kappa_score
 from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
 from tqdm import tqdm
 
 data_dir = "data"
@@ -31,8 +33,12 @@ y = train[label_column]
 X = train[selected_columns]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1)
-rf = RandomForestClassifier().fit(X_train, y_train)
+rf = RandomForestClassifier(n_estimators=5).fit(X_train, y_train)
+
 predictions = rf.predict(X_test)
 
-print(cohen_kappa_score(y_test, predictions, weights="quadratic"))
-print(accuracy_score(y_test, predictions))
+print("Kappa on train: {}".format(round(cohen_kappa_score(y_train, rf.predict(X_train), weights="quadratic"), 4)))
+print("Accuracy on train: {}".format(round(accuracy_score(y_train, rf.predict(X_train), 4))))
+print("________________")
+print("Kappa on test: {}".format(round(cohen_kappa_score(y_test, predictions, weights="quadratic"), 4)))
+print("Accuracy on test: {}".format(round(accuracy_score(y_test, predictions), 4)))
