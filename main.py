@@ -70,7 +70,7 @@ x = Dense(500)(x)
 predictions = Dense(5, activation='softmax')(x)
 
 model = Model(inputs=inputs, outputs=predictions)
-model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=Adam(lr=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 model.fit(X_train, keras.utils.to_categorical(y_train),
           batch_size=1200,
